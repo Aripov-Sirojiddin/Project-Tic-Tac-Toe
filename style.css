@@ -2,7 +2,11 @@ html {
     height: 97%;
     padding-inline: 25%;
 }
-html
+@media only screen and (max-width: 800px) {
+  html {
+        padding-inline: 0;
+  }
+}
 body {
     height: 100%;
     display: grid;
