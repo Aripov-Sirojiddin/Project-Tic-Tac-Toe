@@ -9,3 +9,21 @@ body {
     grid-template-rows: repeat(3, 1fr);
     justify-content: center;
 }
+
+button {
+    border-radius: 1rem;
+    border: 5px solid rgb(0, 157, 255);
+    margin: 2.5px;
+    background: white;
+    font-size: 900%;
+}
+button:hover{
+    border: 10px solid rgb(0, 157, 255);
+}
+
+.btn-o-color {
+    color: rgb(255, 127, 80);
+}
+.btn-x-color {
+    color: rgb(47, 216, 216);
+}
