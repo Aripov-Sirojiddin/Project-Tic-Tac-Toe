@@ -1,8 +1,7 @@
 const gameBoard = function () {
-    const boardState = [];
+    const boardState = new Array(9);
     const placeMarker = (location, mark) => { boardState[location] = mark; }
     const isWinStateFor = (mark) => {
-        console.log("CHECCKING for " + mark)
         if (boardState[0] === mark && boardState[1] === mark && boardState[2] === mark) {
             return true; // Top row
         } else if (boardState[3] === mark && boardState[4] === mark && boardState[5] === mark) {
@@ -33,7 +32,10 @@ const gameState = (function () {
     let board = gameBoard();
     const restartGame = () => {
         for (let i = 0; i < 9; i++) {
-            document.getElementById(`btn-${i + 1}`).textContent = "";
+            const btn = document.getElementById(`btn-${i + 1}`);
+            btn.textContent = "";
+            btn.disabled = false;
+            btn.className = "";
         }
         board = gameBoard();
     }
@@ -45,9 +47,13 @@ const gameState = (function () {
             btn.textContent = playerTurn;
             btn.className += `btn-${playerTurn}-color`;
             board.placeMarker(i, playerTurn);
+            btn.disabled = true;
             if (board.isWinStateFor(playerTurn)) {
                 playerTurn === "x" ? xWins++ : oWins++;
                 alert(`${playerTurn} wins!\n\n\t X has ${xWins} win(s).\n\t O has ${oWins} win(s).`);
+                restartGame();
+            } else if (!board.boardState.includes(undefined)) {
+                alert(`Draw!\n\n\t X has ${xWins} win(s).\n\t O has ${oWins} win(s).`);
                 restartGame();
             }
             switchTurn();
