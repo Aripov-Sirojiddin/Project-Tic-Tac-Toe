@@ -1,16 +1,8 @@
-const gameState = function () {
-    const xWins = 0;
-    const oWins = 0;
-    const playerTurn = "x";
-    const board = gameBoard();
-    const switchTurn = () => { playerTurn = playerTurn === "x" ? "o" : "x"; }
-    return { xWins, oWins, playerTurn, board, switchTurn };
-}
-
 const gameBoard = function () {
     const boardState = [];
     const placeMarker = (location, mark) => { boardState[location] = mark; }
     const isWinStateFor = (mark) => {
+        console.log("CHECCKING for " + mark)
         if (boardState[0] === mark && boardState[1] === mark && boardState[2] === mark) {
             return true; // Top row
         } else if (boardState[3] === mark && boardState[4] === mark && boardState[5] === mark) {
@@ -31,5 +23,34 @@ const gameBoard = function () {
             return false; // No win condition met
         }
     };
-    return {boardState, placeMarker, isWinStateFor};
+    return { boardState, placeMarker, isWinStateFor };
 }
+
+const gameState = (function () {
+    let xWins = 0;
+    let oWins = 0;
+    let playerTurn = "x";
+    let board = gameBoard();
+    const restartGame = () => {
+        for (let i = 0; i < 9; i++) {
+            document.getElementById(`btn-${i + 1}`).textContent = "";
+        }
+        board = gameBoard();
+    }
+    const switchTurn = () => { playerTurn = playerTurn === "x" ? "o" : "x"; }
+
+    for (let i = 0; i < 9; i++) {
+        const btn = document.getElementById(`btn-${i + 1}`);
+        btn.addEventListener('click', () => {
+            btn.textContent = playerTurn;
+            btn.className += `btn-${playerTurn}-color`;
+            board.placeMarker(i, playerTurn);
+            if (board.isWinStateFor(playerTurn)) {
+                playerTurn === "x" ? xWins++ : oWins++;
+                alert(`${playerTurn} wins!\n\n\t X has ${xWins} win(s).\n\t O has ${oWins} win(s).`);
+                restartGame();
+            }
+            switchTurn();
+        });
+    }
+})();
